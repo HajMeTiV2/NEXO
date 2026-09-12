@@ -1,4 +1,4 @@
-"""Lunel Console API — ASGI application.
+"""NEXO Console API — ASGI application.
 
 Serves:
 * the Console API under /api and /auth
@@ -27,7 +27,7 @@ log = get("runtime", "lunel.console")
 
 FRONTEND_DIR = Path(__file__).resolve().parents[2] / "frontend"
 
-app = FastAPI(title="Lunel Console", docs_url=None, redoc_url=None,
+app = FastAPI(title="NEXO Console", docs_url=None, redoc_url=None,
               version=version.version())
 
 app.include_router(panel_router)
@@ -48,7 +48,7 @@ async def panel_home():
 
 @app.get("/health")
 async def health():
-    return {"status": "ok", "service": "Lunel Console", "version": version.version()}
+    return {"status": "ok", "service": "NEXO Console", "version": version.version()}
 
 
 @app.get("/ready")
@@ -77,10 +77,10 @@ async def spa_fallback(request, exc):
 @contextlib.asynccontextmanager
 async def lifespan(_app):
     await init_pool()
-    log.info("Lunel Console %s started", version.version())
+    log.info("NEXO Console %s started", version.version())
     yield
     await close_db()
-    log.info("Lunel Console stopped")
+    log.info("NEXO Console stopped")
 
 
 app.router.lifespan_context = lifespan

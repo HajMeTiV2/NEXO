@@ -1,4 +1,4 @@
-"""Configuration for the Lunel Console API (env-driven, secrets never logged)."""
+"""Configuration for the NEXO Console API (env-driven, secrets never logged)."""
 from __future__ import annotations
 
 import os

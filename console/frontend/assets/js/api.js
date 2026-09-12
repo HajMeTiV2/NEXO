@@ -1,4 +1,4 @@
-// Lunel Console frontend utilities: API client with CSRF, toasts, formatting.
+// NEXO Console frontend utilities: API client with CSRF, toasts, formatting.
 export let csrfToken = "";
 
 export function setCsrf(token) {

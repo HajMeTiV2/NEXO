@@ -1,4 +1,4 @@
-"""Logging for the Lunel Console API (structured + redaction, shared pattern)."""
+"""Logging for the NEXO Console API (structured + redaction, shared pattern)."""
 from __future__ import annotations
 
 import logging

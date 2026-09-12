@@ -1,9 +1,9 @@
-"""Lunel Console API version info."""
+"""NEXO Console API version info."""
 from __future__ import annotations
 
 import os
 
-APP_NAME = "Lunel Console"
+APP_NAME = "NEXO Console"
 
 
 def version() -> str:

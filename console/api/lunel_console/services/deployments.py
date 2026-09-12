@@ -332,7 +332,7 @@ async def _provision_default_link(pool: asyncpg.Pool, deployment_id: str,
                 resp = await client.post(
                     f"{node_url.rstrip('/')}/worker/api/instances/{instance_id}"
                     f"/proxy/core/api/links",
-                    json={"label": row["name"], "protocol": proto},
+                    json={"label": f"{row['name']} · {pretty}", "protocol": proto},
                     headers={"Authorization": f"Bearer {_settings.worker_token}",
                              "Content-Type": "application/json"},
                 )
@@ -342,7 +342,7 @@ async def _provision_default_link(pool: asyncpg.Pool, deployment_id: str,
                     "INSERT INTO instance_links (id, instance_id, link_uuid, label, created_at) "
                     "VALUES ($1, $2, $3, $4, $5)",
                     secrets.token_hex(16), instance_id, link_uuid,
-                    row["name"], datetime.now(timezone.utc),
+                    f"{row['name']} · {pretty}", datetime.now(timezone.utc),
                 )
                 created += 1
         await _log(pool, deployment_id, f"Provisioned {created} links (all protocols)", "ok")

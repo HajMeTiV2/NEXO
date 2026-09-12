@@ -1,4 +1,4 @@
-"""Lunel Console API entrypoint."""
+"""NEXO Console API entrypoint."""
 from __future__ import annotations
 
 import os

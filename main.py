@@ -4,7 +4,7 @@ One deployable unit contains the whole platform:
 
     python main.py        # or:  uvicorn main:app
 
-  * Lunel Console API + frontend on ``$PORT`` (default 8080) — the public
+  * NEXO Console API + frontend on ``$PORT`` (default 8080) — the public
     endpoint on the platform's domain (WebSocket capable)
   * an embedded Lunel Worker on an internal loopback port
   * Lunel Core instances as isolated child processes (process driver, OS

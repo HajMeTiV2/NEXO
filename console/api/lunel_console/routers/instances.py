@@ -1,4 +1,4 @@
-"""Instance management routes — the core of the Lunel Console API.
+"""Instance management routes — the core of the NEXO Console API.
 
 All routes require an authenticated session; every query is scoped to the
 owning user (authorization). Secrets (core API token) never leave the server.

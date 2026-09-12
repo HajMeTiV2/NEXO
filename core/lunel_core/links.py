@@ -23,7 +23,7 @@ def _with_prefix(link: Link, prefix: str) -> Link:
     return clone
 
 
-def generate_share_link(link: Link, host: str, remark_prefix: str = "NEXO",
+def generate_share_link(link: Link, host: str, remark_prefix: str = "Lunel",
                         path_prefix: str = "") -> str:
     """Build a client import URL. ``path_prefix`` (e.g. ``/i/<token>``) is
     prepended to every transport path so the link routes through the
@@ -81,7 +81,7 @@ def generate_share_link(link: Link, host: str, remark_prefix: str = "NEXO",
     return f"vless://{link.uuid}@{host}{port_part}?{query}#{quote(remark)}"
 
 
-def subscription_payload(links: list[Link], host: str, title: str = "NEXO") -> tuple[str, dict]:
+def subscription_payload(links: list[Link], host: str, title: str = "Lunel") -> tuple[str, dict]:
     """Base64 subscription body + response headers (profile metadata)."""
     lines = [generate_share_link(link, host) for link in links]
     content = base64.b64encode("\n".join(lines).encode()).decode()

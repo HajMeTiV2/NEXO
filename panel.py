@@ -17,7 +17,7 @@ PAGE = r"""<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
-<title>Lunel Console</title>
+<title>NEXO Console</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2.5a13.5 13.5 0 1 0 13.06 17.02 11 11 0 0 1-14.58-14.58A13.6 13.6 0 0 1 16 2.5Z' fill='%23d8e0ee'/%3E%3C/svg%3E">
 <style>
 :root{--bg:#0a0c10;--bg2:#10131a;--sur:#12151c;--sur2:#171b24;--bd:#1e2430;--bd2:#2a3242;
@@ -559,7 +559,7 @@ function render(){
     if(me.links){LINKS.github=me.links.github||LINKS.github;LINKS.telegram=me.links.telegram||""}
     viewDash();
   }).catch(function(e){
-    $("#app").innerHTML='<div class="lw"><div class="lc"><div class="card"><b>Lunel Console failed to load</b><p class="mut">'+esc(e.message)+"</p></div></div></div>";
+    $("#app").innerHTML='<div class="lw"><div class="lc"><div class="card"><b>NEXO Console failed to load</b><p class="mut">'+esc(e.message)+"</p></div></div></div>";
   });
 }
 render();

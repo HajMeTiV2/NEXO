@@ -2,7 +2,7 @@
 
 Runs on every infrastructure node. Responsibilities:
 
-* HTTP API for the Lunel Console (auth via shared worker token):
+* HTTP API for the NEXO Console (auth via shared worker token):
     POST /worker/api/instances/:id/launch     deploy a Lunel Core container
     POST /worker/api/instances/:id/stop
     POST /worker/api/instances/:id/restart

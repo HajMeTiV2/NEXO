@@ -1,4 +1,4 @@
-"""Lunel Console API — control plane for Lunel Core instances.
+"""NEXO Console API — control plane for Lunel Core instances.
 
 Stack: FastAPI + PostgreSQL (asyncpg) + GitHub OAuth sessions.
 

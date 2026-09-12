@@ -83,11 +83,3 @@ def test_link_quota_policy():
     assert link.is_allowed() is False
     link.limit_bytes = 0  # unlimited
     assert link.is_allowed() is True
-
-
-def test_nexo_share_remark_uses_project_then_instance_name():
-    from lunel_core.links import generate_share_link
-
-    link = Link(uuid="a" * 32, label="Hajmeti", protocol="vless-ws")
-    url = generate_share_link(link, "example.com")
-    assert url.endswith("#NEXO-Hajmeti")

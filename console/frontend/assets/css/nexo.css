@@ -1,4 +1,53 @@
-/* NEXO theme overrides */
-:root { --nexo-cyan:#22d3ee; --nexo-blue:#3b82f6; --nexo-violet:#a855f7; }
-.btn.primary { background: linear-gradient(135deg,var(--nexo-cyan),var(--nexo-blue)); border-color: transparent; }
-.btn.primary:hover { filter: brightness(1.08); }
+
+/* NEXO Cyber Premium Theme */
+:root{
+ --bg:#050816;
+ --bg-raised:#0b1224;
+ --surface:rgba(15,23,42,.92);
+ --surface-2:#172554;
+ --border:#243b64;
+ --text:#f8fafc;
+ --text-dim:#94a3b8;
+ --accent:#22d3ee;
+ --accent2:#8b5cf6;
+ --success:#22c55e;
+ --danger:#ef4444;
+}
+
+*{box-sizing:border-box}
+
+body{
+ background:
+ radial-gradient(circle at top right, rgba(34,211,238,.15), transparent 35%),
+ radial-gradient(circle at top left, rgba(139,92,246,.15), transparent 30%),
+ var(--bg);
+ color:var(--text);
+}
+
+.card,.panel,.sidebar{
+ background:linear-gradient(145deg,rgba(15,23,42,.95),rgba(8,15,30,.95));
+ border:1px solid var(--border);
+ box-shadow:0 15px 40px rgba(0,0,0,.35);
+ backdrop-filter:blur(12px);
+ border-radius:18px;
+}
+
+button,.btn{
+ background:linear-gradient(90deg,var(--accent),var(--accent2));
+ color:#fff;
+ border:none;
+ border-radius:12px;
+ box-shadow:0 0 25px rgba(34,211,238,.25);
+}
+
+.logo,.brand{
+ filter:drop-shadow(0 0 12px rgba(34,211,238,.45));
+}
+
+.status-online{
+ color:var(--success);
+}
+
+a,.accent{
+ color:var(--accent);
+}

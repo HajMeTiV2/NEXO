@@ -1,4 +1,4 @@
-"""PostgreSQL migrations for Lunel Console (applied in order on startup)."""
+"""PostgreSQL migrations for NEXO Console (applied in order on startup)."""
 from __future__ import annotations
 
 MIGRATIONS: list[tuple[str, str]] = [

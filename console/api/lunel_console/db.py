@@ -1,4 +1,4 @@
-"""Database layer for the Lunel Console.
+"""Database layer for the NEXO Console.
 
 Two backends behind one facade:
 
@@ -410,7 +410,7 @@ async def init_pool() -> None:
         await _sqlite.conn_executescript(SQLITE_SCHEMA)
         db = _sqlite
         await _seed_default_admin()
-        log.info("Lunel Console database: embedded SQLite (%s)", _mask_sqlite(dsn))
+        log.info("NEXO Console database: embedded SQLite (%s)", _mask_sqlite(dsn))
         return
 
     if not dsn:
@@ -448,7 +448,7 @@ async def init_pool() -> None:
     await migrate(pool)
     db = _PostgresDatabase(pool)
     await _seed_default_admin()
-    log.info("Lunel Console database: PostgreSQL at %s", _mask_dsn(normalized))
+    log.info("NEXO Console database: PostgreSQL at %s", _mask_dsn(normalized))
 
 
 def _mask_sqlite(dsn: str) -> str:
