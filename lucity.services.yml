@@ -22,12 +22,12 @@ services:
   console:
     root_directory: console/api
     port: 8080
-    start_command: "python -m lunel_console"
+    start_command: "python -m nexo_console"
     healthcheck_path: /health
 
   worker:
     root_directory: worker
     port: 9100
-    start_command: "python -m lunel_worker"
+    start_command: "python -m nexo_console"
     healthcheck_path: /health
     # no domains → internal-only
