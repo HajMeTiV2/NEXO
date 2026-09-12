@@ -17,7 +17,7 @@ PAGE = r"""<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
-<title>NEXO Console</title>
+<title>NEXO Cyber Console</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2.5a13.5 13.5 0 1 0 13.06 17.02 11 11 0 0 1-14.58-14.58A13.6 13.6 0 0 1 16 2.5Z' fill='%23d8e0ee'/%3E%3C/svg%3E">
 <style>
 :root{--bg:#0a0c10;--bg2:#10131a;--sur:#12151c;--sur2:#171b24;--bd:#1e2430;--bd2:#2a3242;
@@ -195,9 +195,9 @@ function shell(nav){
   stopPoll();setCleanup(null);
   var app=$("#app");
   app.innerHTML='<div class="shell"><aside class="sb">'+
-    '<div class="brand">'+MARK+'<div><div class="bn">NEXO</div><div style="font-size:10px;color:var(--fnt);letter-spacing:1.2px">CONSOLE</div></div></div>'+
-    '<button class="ni '+(nav==="dash"?"act":"")+'" data-nav="dash">'+ic("dash")+' Dashboard</button>'+
-    '<button class="ni '+(nav==="new"?"act":"")+'" data-nav="new">'+ic("plus")+' Create Instance</button>'+
+    '<div class="brand">'+MARK+'<div><div class="bn">NEXO</div><div style="font-size:10px;color:var(--fnt);letter-spacing:1.2px">CYBER CONSOLE</div></div></div>'+
+    '<button class="ni '+(nav==="dash"?"act":"")+'" data-nav="dash">'+ic("dash")+' Overview</button>'+
+    '<button class="ni '+(nav==="new"?"act":"")+'" data-nav="new">'+ic("plus")+' Launch Instance</button>'+
     (USER.is_admin?'<button class="ni '+(nav==="admin"?"act":"")+'" data-nav="admin">'+ic("gear")+' Admin</button>':"")+
     (LINKS.github?'<a class="ni" href="'+LINKS.github+'" target="_blank" rel="noopener">'+ic("gh")+' GitHub</a>':"")+
     (LINKS.telegram?'<a class="ni" href="'+esc(LINKS.telegram)+'" target="_blank" rel="noopener">'+ic("tg")+' Telegram</a>':"")+
@@ -208,8 +208,8 @@ function shell(nav){
     '<button class="btn sm" style="margin-left:auto" id="lgm">Sign out</button></div>'+
     '<div class="ct" id="view"></div>'+
     '<nav class="bnav"><button class="ni '+(nav==="dash"?"act":"")+'" data-nav="dash">'+ic("dash")+'<span>Home</span></button>'+
-    '<button class="ni '+(nav==="new"?"act":"")+'" data-nav="new">'+ic("plus")+'<span>Create</span></button>'+
-    (USER.is_admin?'<button class="ni '+(nav==="admin"?"act":"")+'" data-nav="admin">'+ic("gear")+'<span>Admin</span></button>':"")+
+    '<button class="ni '+(nav==="new"?"act":"")+'" data-nav="new">'+ic("plus")+'<span>Launch</span></button>'+
+    (USER.is_admin?'<button class="ni '+(nav==="admin"?"act":"")+'" data-nav="admin">'+ic("gear")+'<span>Control</span></button>':"")+
     '</nav></div></div>';
   var lg=$("#lg");if(lg)lg.onclick=logout;
   var lgm=$("#lgm");if(lgm)lgm.onclick=logout;
@@ -230,12 +230,12 @@ function viewLogin(){
   stopPoll();setCleanup(null);
   $("#app").innerHTML='<div class="lw"><div class="lc"><div class="card">'+
     '<div style="text-align:center">'+MARK+'<h2>NEXO</h2>'+
-    '<p class="p" style="text-align:center">Deploy and manage multi-protocol proxy instances with NEXO.</p></div>'+
-    '<div class="fld"><label>Account name</label><input class="inp" id="u" placeholder="admin" autocomplete="username"></div>'+
+    '<p class="p" style="text-align:center">Securely deploy and manage your NEXO proxy infrastructure.</p></div>'+
+    '<div class="fld"><label>Account</label><input class="inp" id="u" placeholder="admin" autocomplete="username"></div>'+
     '<div class="fld"><label>Password</label><input class="inp" id="p" type="password" autocomplete="current-password"></div>'+
-    '<button class="btn pri" id="go" style="width:100%">Sign in</button>'+
+    '<button class="btn pri" id="go" style="width:100%">Enter NEXO</button>'+
     '<p class="fn" style="text-align:center">Telegram: <a href="https://t.me/V2rayTun0" target="_blank" rel="noopener">@V2rayTun0</a><br>Created by <a href="https://t.me/Mehtif" target="_blank" rel="noopener">@Mehtif</a></p>'+
-    '<p class="fn">Default account is <span class="mono">admin / admin</span> — change it in Admin → System.</p>'+
+    '<p class="fn">Default account: <span class="mono">admin / admin</span> — change it in Control Center → System.</p>'+
     '</div></div></div>';
   $("#go").onclick=function(){
     var b=$("#go");b.disabled=true;
@@ -248,22 +248,22 @@ function viewLogin(){
 function viewDash(){
   shell("dash");
   var v=$("#view");
-  v.innerHTML='<div class="ph"><div><h1>Dashboard</h1><div class="sub">Your NEXO instances at a glance.</div></div>'+
-    '<div class="ha"><button class="btn pri" data-go="new">+ Create Instance</button></div></div>'+
-    '<div class="sgs" id="sgs"></div><h3 style="margin:0 0 10px;font-size:13.5px">Instances</h3><div id="il"></div>'+
-    '<div class="card" style="margin-top:22px"><h3>Recent activity</h3><div id="ac" class="mut">—</div></div>';
+  v.innerHTML='<div class="ph"><div><h1>NEXO Overview</h1><div class="sub">Your NEXO infrastructure at a glance.</div></div>'+
+    '<div class="ha"><button class="btn pri" data-go="new"> + Launch Instance</button></div></div>'+
+    '<div class="sgs" id="sgs"></div><h3 style="margin:0 0 10px;font-size:13.5px">NEXO Instances</h3><div id="il"></div>'+
+    '<div class="card" style="margin-top:22px"><h3>Live activity</h3><div id="ac" class="mut">—</div></div>';
   Array.prototype.forEach.call(v.querySelectorAll("[data-go]"),function(b){b.onclick=function(){nav_(b.dataset.go)}});
   var t=null;
   function load(){
     return Promise.all([api("GET","/api/instances"),api("GET","/api/activity")]).then(function(rs){
       var list=rs[0].instances, act=rs[1].activity;
       var run=0,sto=0,fail=0;list.forEach(function(i){if(i.status==="running")run++;else if(i.status==="failed")fail++;else sto++});
-      $("#sgs").innerHTML=sg("Active instances",list.length)+sg("Running",run,"var(--grn)")+sg("Stopped",sto)+sg("Failed",fail,fail?"var(--red)":null);
+      $("#sgs").innerHTML=sg("Active NEXO instances",list.length)+sg("Running",run,"var(--grn)")+sg("Stopped",sto)+sg("Failed",fail,fail?"var(--red)":null);
       var il=$("#il");
-      if(!list.length){il.innerHTML='<div class="empty"><b>No instances yet</b>Deploy your first one in under a minute.<div style="margin-top:14px"><button class="btn pri" data-go="new">Create your first instance</button></div></div>'}
+      if(!list.length){il.innerHTML='<div class="empty"><b>No instances deployed yet</b>Launch your first NEXO instance in under a minute.<div style="margin-top:14px"><button class="btn pri" data-go="new">Launch your first instance</button></div></div>'}
       else{il.innerHTML='<div class="ig">'+list.map(card).join("")+"</div>";
         Array.prototype.forEach.call(il.querySelectorAll("[data-id]"),function(c){c.onclick=function(){viewInst(c.dataset.id)}})}
-      $("#ac").innerHTML=act.length?act.slice(0,8).map(function(a){return '<div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd)"><span class="ftx mono" style="width:64px;flex:none">'+ago(a.ts)+'</span><span class="mut">'+esc(a.message)+"</span></div>"}).join(""):"Nothing yet.";
+      $("#ac").innerHTML=act.length?act.slice(0,8).map(function(a){return '<div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd)"><span class="ftx mono" style="width:64px;flex:none">'+ago(a.ts)+'</span><span class="mut">'+esc(a.message)+"</span></div>"}).join(""):"Nothing yet — your NEXO activity will appear here.";
       var go=v.querySelector(".empty [data-go]");if(go)go.onclick=function(){nav_("new")};
       return list;
     });
@@ -290,18 +290,18 @@ function viewWizard(){
   shell("new");
   var m={name:"",region:"local",protocol:"vless-ws",protocols:["vless-ws"],cpu:0.5,mem:256},step=0;
   var v=$("#view");
-  v.innerHTML='<div class="ph"><div><h1>Create Instance</h1><div class="sub">Name it, pick a protocol, deploy. No servers, no YAML.</div></div></div>'+
+  v.innerHTML='<div class="ph"><div><h1>Launch Instance</h1><div class="sub">Name it, choose a protocol, and deploy your NEXO node.</div></div></div>'+
     '<div class="row" id="stb" style="gap:4px;margin-bottom:20px"></div><div class="card" id="sb"></div>'+
     '<div class="row" style="margin-top:18px"><button class="btn" id="bk">Back</button><div class="grow"></div><button class="btn pri" id="nx">Continue</button></div>';
-  var steps=["Name","Region","Config","Networking","Review","Deploy"];
+  var steps=["Name","Region","Config","Networking","Review & Launch","Deploy"];
   function bar(){ $("#stb").innerHTML=steps.map(function(s,i){return '<div class="grow" style="height:3px;border-radius:2px;background:'+(i<step?"var(--acc)":i===step?"var(--blu)":"var(--bd)")+'"></div>'}).join("")}
   function show(){
     bar();var b=$("#sb");
-    $("#bk").disabled=step===0;$("#nx").textContent=step===4?"Deploy":step===5?"Go to instance":"Continue";
+    $("#bk").disabled=step===0;$("#nx").textContent=step===4?"Deploy":step===5?"Open instance":"Continue";
     $("#nx").classList.toggle("pri",step!==5);
-    if(step===0){b.innerHTML='<h3 style="margin:0 0 10px">Step 1 — Name</h3><div class="fld"><label>Instance name</label><input class="inp" id="f-n" maxlength="60" placeholder="e.g. Production" value="'+esc(m.name)+'"></div><div class="ftx" style="font-size:12px">Letters, numbers, dashes. Up to 25 instances per account.</div>';
+    if(step===0){b.innerHTML='<h3 style="margin:0 0 10px">Step 1 — Instance name</h3><div class="fld"><label>Instance name</label><input class="inp" id="f-n" maxlength="60" placeholder="e.g. Production" value="'+esc(m.name)+'"></div><div class="ftx" style="font-size:12px">Letters, numbers, dashes. Up to 25 instances per account.</div>';
       $("#f-n").oninput=function(e){m.name=e.target.value}}
-    else if(step===1){b.innerHTML='<h3 style="margin:0 0 10px">Step 2 — Region</h3><div class="optg" id="rg"><div class="opt sel" data-id="local"><div class="t">Local node</div><div class="d">Default worker on this platform</div></div></div>';
+    else if(step===1){b.innerHTML='<h3 style="margin:0 0 10px">Step 2 — Deployment region</h3><div class="optg" id="rg"><div class="opt sel" data-id="local"><div class="t">NEXO Local Node</div><div class="d">Default NEXO worker on this platform</div></div></div>';
       Array.prototype.forEach.call(b.querySelectorAll(".opt"),function(o){o.onclick=function(){m.region=o.dataset.id;Array.prototype.forEach.call(b.querySelectorAll(".opt"),function(x){x.classList.toggle("sel",x===o)})}})}
     else if(step===2){b.innerHTML='<h3 style="margin:0 0 10px">Step 3 — Protocols & resources</h3><div class="fld"><div class="optg">'+PROTOS.map(function(p){return '<div class="opt '+(m.protocols.indexOf(p[0])>=0?"sel":"")+'" data-id="'+p[0]+'"><div class="t">'+p[1]+'</div><div class="d">'+p[2]+"</div></div>"}).join("")+'</div><p class="ftx" style="font-size:11.5px;margin-top:7px">Pick one or more \u2014 each selected protocol gets its own config in the subscription.</p></div><div class="row"><div class="fld" style="width:160px;margin:0"><label>CPU (cores)</label><select class="inp" id="f-c">'+[0.25,0.5,1,2,4].map(function(x){return '<option value="'+x+'" '+(m.cpu===x?"selected":"")+">"+x+"</option>"}).join("")+'</select></div><div class="fld" style="width:160px;margin:0"><label>Memory</label><select class="inp" id="f-m">'+[128,256,512,1024,2048].map(function(x){return '<option value="'+x+'" '+(m.mem===x?"selected":"")+">"+x+" MB</option>"}).join("")+"</select></div></div>";
       Array.prototype.forEach.call(b.querySelectorAll(".opt"),function(o){o.onclick=function(){
@@ -310,8 +310,8 @@ function viewWizard(){
         else{m.protocols.push(o.dataset.id);o.classList.add("sel")}}});
       $("#f-c").onchange=function(e){m.cpu=parseFloat(e.target.value)};$("#f-m").onchange=function(e){m.mem=parseInt(e.target.value,10)}}
     else if(step===3){b.innerHTML='<h3 style="margin:0 0 10px">Step 4 — Networking</h3><div class="card" style="background:var(--bg2)"><div class="row"><span class="chip">https</span><span class="mono">&lt;console-host&gt;/i/&lt;private-token&gt;</span></div><p class="ftx" style="margin:9px 0 0;font-size:12.5px">WebSocket, xHTTP and all Lunel protocols work through this endpoint with automatic TLS. Ready on deploy.</p></div>'}
-    else if(step===4){b.innerHTML='<h3 style="margin:0 0 10px">Step 5 — Review</h3><table class="tbl"><tr><td style="color:var(--fnt);width:40%">Name</td><td class="mono">'+(esc(m.name)||"—")+"</td></tr><tr><td style='color:var(--fnt)'>Region</td><td class='mono'>"+esc(m.region)+"</td></tr><tr><td style='color:var(--fnt)'>Protocols</td><td class='mono'>"+esc(m.protocols.join(", "))+"</td></tr><tr><td style='color:var(--fnt)'>CPU / Memory</td><td class='mono'>"+m.cpu+" core / "+m.mem+" MB</td></tr></table>"}
-    else if(step===5){b.innerHTML='<h3 style="margin:0 0 10px">Step 6 — Deploy</h3><div class="kv"><div class="it"><div class="k">Status</div><div class="v" id="ds">Deploying…</div></div><div class="it"><div class="k">Deployment</div><div class="v" id="di">—</div></div></div><div class="term" style="margin-top:14px"><div class="tbody" id="dl" style="height:220px"><div class="ll"><span class="t">»</span> queued</div></div></div>'}
+    else if(step===4){b.innerHTML='<h3 style="margin:0 0 10px">Step 5 — Review & Launch</h3><table class="tbl"><tr><td style="color:var(--fnt);width:40%">Name</td><td class="mono">'+(esc(m.name)||"—")+"</td></tr><tr><td style='color:var(--fnt)'>Region</td><td class='mono'>"+esc(m.region)+"</td></tr><tr><td style='color:var(--fnt)'>Protocols</td><td class='mono'>"+esc(m.protocols.join(", "))+"</td></tr><tr><td style='color:var(--fnt)'>CPU / Memory</td><td class='mono'>"+m.cpu+" core / "+m.mem+" MB</td></tr></table>"}
+    else if(step===5){b.innerHTML='<h3 style="margin:0 0 10px">Step 6 — Launch</h3><div class="kv"><div class="it"><div class="k">Status</div><div class="v" id="ds">Launching…</div></div><div class="it"><div class="k">Deployment</div><div class="v" id="di">—</div></div></div><div class="term" style="margin-top:14px"><div class="tbody" id="dl" style="height:220px"><div class="ll"><span class="t">»</span> queued</div></div></div>'}
   }
   $("#bk").onclick=function(){if(step>0&&step!==5){step--;show()}};
   $("#nx").onclick=function(){
@@ -328,8 +328,8 @@ function viewWizard(){
             var logs=rs[0].logs;for(;seen<logs.length;seen++){var e=document.createElement("div");e.className="ll "+logs[seen].level;e.innerHTML='<span class="lv">'+logs[seen].level+"</span> "+esc(logs[seen].message);var dl=$("#dl");if(dl){dl.appendChild(e);dl.scrollTop=dl.scrollHeight}}
             var dep=(rs[1].deployments||[]).filter(function(d){return d.id===r.d.deployment_id})[0];
             if(dep){$("#ds").textContent=dep.status.replace("_"," ");
-              if(dep.status==="running"){$("#ds").style.color="var(--grn)";stopPoll();$("#nx").disabled=false;$("#nx").textContent="Go to instance";$("#nx").onclick=function(){viewInst(r.c.id)};toast("Instance is running","ok")}
-              else if(dep.status==="failed"){$("#ds").style.color="var(--red)";stopPoll();$("#nx").disabled=false;$("#nx").textContent="Retry";$("#nx").onclick=function(){viewInst(r.c.id)};toast("Deployment failed: "+(dep.error||"unknown"),"err",8000)}}
+              if(dep.status==="running"){$("#ds").style.color="var(--grn)";stopPoll();$("#nx").disabled=false;$("#nx").textContent="Open instance";$("#nx").onclick=function(){viewInst(r.c.id)};toast("Instance is running","ok")}
+              else if(dep.status==="failed"){$("#ds").style.color="var(--red)";stopPoll();$("#nx").disabled=false;$("#nx").textContent="Retry";$("#nx").onclick=function(){viewInst(r.c.id)};toast("NEXO launch failed: "+(dep.error||"unknown"),"err",8000)}}
           }).catch(function(){});
         },1500);
       }).catch(function(e){toast(e.message,"err",6000);step=4;show();$("#nx").disabled=false});
@@ -364,8 +364,8 @@ function viewInst(id){
   function draw(){
     var b=$("#tb");if(!b)return;
     if(tab==="config"){
-      b.innerHTML='<div class="card"><div class="row" style="justify-content:space-between"><h3>Subscription</h3><button class="btn sm" id="cf-r">Refresh</button></div>'+
-        '<p class="mut" style="font-size:12.5px;margin:6px 0 10px">One URL, <b>all 4 protocols</b> (VLESS, Trojan, Shadowsocks, xHTTP). Add it under Subscriptions in your client — it auto-updates.</p>'+
+      b.innerHTML='<div class="card"><div class="row" style="justify-content:space-between"><h3>NEXO Subscription</h3><button class="btn sm" id="cf-r">Refresh</button></div>'+
+        '<p class="mut" style="font-size:12.5px;margin:6px 0 10px">One subscription URL, <b>all 4 protocols</b> (VLESS, Trojan, Shadowsocks, xHTTP). Add it under NEXO Subscriptions in your client — it auto-updates.</p>'+
         '<div class="row"><div class="mono grow" id="suburl" style="background:var(--bg2);border:1px solid var(--bd);border-radius:7px;padding:8px 10px;word-break:break-all"></div><button class="btn sm pri" id="subc">Copy</button><a class="btn sm" id="subo" target="_blank" rel="noopener">Open</a></div>'+
         '<div class="row" style="margin-top:9px;gap:6px"><span class="ftx" style="font-size:11.5px">Formats:</span>'+
         '<button class="btn sm" id="sub-v2">v2ray/Clash Verge</button><button class="btn sm" id="sub-sb">sing-box</button><button class="btn sm" id="sub-cl">Clash Meta</button></div>'+
@@ -377,7 +377,7 @@ function viewInst(id){
         api("GET","/api/instances/"+id+"/config").then(function(d){
           var subUrl=location.origin+"/i/"+(d.endpoint_path||"").replace("/i/","")+"/sub";
           if(d.endpoint_path){$("#suburl").textContent=subUrl;
-            $("#subc").onclick=function(){navigator.clipboard&&navigator.clipboard.writeText(subUrl).then(function(){toast("Subscription URL copied","ok",2500)})};
+            $("#subc").onclick=function(){navigator.clipboard&&navigator.clipboard.writeText(subUrl).then(function(){toast("NEXO subscription URL copied","ok",2500)})};
             $("#subo").href=subUrl+"?host="+location.host;
             var v2=location.origin+"/i/"+d.endpoint_path.split("/i/")[1]+"/sub?host="+location.host;
             $("#sub-v2").onclick=function(){navigator.clipboard&&navigator.clipboard.writeText(v2).then(function(){toast("v2ray sub URL copied","ok",2500)})};
@@ -426,7 +426,7 @@ function viewInst(id){
           '<div class="it"><div class="k">Status</div><div class="v">'+(LBL[inst.status]||inst.status)+"</div></div>"+
           '<div class="it"><div class="k">Uptime</div><div class="v">'+fmtUp(st.core_health&&st.core_health.uptime)+"</div></div>"+
           '<div class="it"><div class="k">Connections</div><div class="v">'+(st.core_health?st.core_health.connections:"—")+"</div></div>"+
-          '<div class="it"><div class="k">Version</div><div class="v">'+esc(st.core_health&&st.core_health.version||"—")+"</div></div>"+
+          '<div class="it"><div class="k">Release</div><div class="v">'+esc(st.core_health&&st.core_health.version||"—")+"</div></div>"+
           '<div class="it"><div class="k">Region</div><div class="v">'+esc(inst.region)+"</div></div>"+
           '<div class="it"><div class="k">Health</div><div class="v" style="color:'+(st.healthy?"var(--grn)":"var(--fnt)")+'">'+(st.healthy?"healthy":"n/a")+"</div></div>";
         $("#odp").innerHTML=ld?'<div class="row">'+stEl(ld.status).outerHTML+'<span class="chip">v'+ld.version+'</span><span class="ftx">started '+ago(ld.started_at)+" · "+dur(ld.duration_ms)+"</span></div>"+(ld.error?'<p style="color:var(--red);font-size:12px;margin:7px 0 0">'+esc(ld.error)+"</p>":""):"—";
@@ -449,18 +449,18 @@ function viewInst(id){
         api("POST","/api/instances/"+id+"/domains").then(function(){toast("Endpoints regenerated","ok");refresh()}).catch(function(e){toast(e.message,"err")})};
     }
     else if(tab==="deployments"){
-      b.innerHTML='<div class="card" style="padding:0"><table class="tbl"><thead><tr><th>Version</th><th>Status</th><th>Started</th><th>Took</th><th>Error</th></tr></thead><tbody id="dt"></tbody></table></div>';
+      b.innerHTML='<div class="card" style="padding:0"><table class="tbl"><thead><tr><th>Release</th><th>Status</th><th>Started</th><th>Duration</th><th>Error</th></tr></thead><tbody id="dt"></tbody></table></div>';
       api("GET","/api/instances/"+id+"/deployments").then(function(d){
         $("#dt").innerHTML=d.deployments.length?d.deployments.map(function(x){return "<tr><td class='mono'>v"+x.version+"</td><td>"+stEl(x.status).outerHTML+"</td><td class='ftx'>"+ago(x.started_at)+"</td><td>"+dur(x.duration_ms)+"</td><td class='ftx' style='max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap'>"+esc(x.error||"")+"</td></tr>"}).join(""):'<tr><td colspan="5" class="ftx" style="text-align:center;padding:20px">No deployments yet.</td></tr>'});
     }
     else if(tab==="activity"){
-      b.innerHTML='<div class="card"><h3>Activity</h3><div id="af"></div></div>';
+      b.innerHTML='<div class="card"><h3>Live Activity</h3><div id="af"></div></div>';
       api("GET","/api/instances/"+id+"/activity").then(function(d){
-        $("#af").innerHTML=d.activity.length?d.activity.map(function(a){return '<div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd)"><span class="ftx mono" style="width:64px;flex:none">'+ago(a.ts)+'</span><span class="mut">'+esc(a.message)+"</span></div>"}).join(""):'<span class="ftx">Nothing yet.</span>'});
+        $("#af").innerHTML=d.activity.length?d.activity.map(function(a){return '<div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd)"><span class="ftx mono" style="width:64px;flex:none">'+ago(a.ts)+'</span><span class="mut">'+esc(a.message)+"</span></div>"}).join(""):'<span class="ftx">Nothing yet — your NEXO activity will appear here.</span>'});
     }
     else if(tab==="settings"){
-      b.innerHTML='<div class="card" style="max-width:520px"><h3>Danger zone</h3><p class="mut" style="font-size:12.5px">Rotate credentials (endpoint token + internal token) and redeploy, or delete this instance.</p><div class="row" style="margin-top:14px"><button class="btn" id="s-rt">Rotate credentials</button><button class="btn dng" id="s-del">Delete instance</button></div></div>';
-      $("#s-rt").onclick=function(){if(!confirm("Rotate credentials and redeploy? Clients must re-import the link."))return;
+      b.innerHTML='<div class="card" style="max-width:520px"><h3>Danger zone</h3><p class="mut" style="font-size:12.5px">Rotate access credentials (endpoint token + internal token) and redeploy, or delete this instance.</p><div class="row" style="margin-top:14px"><button class="btn" id="s-rt">Rotate access credentials</button><button class="btn dng" id="s-del">Delete NEXO instance</button></div></div>';
+      $("#s-rt").onclick=function(){if(!confirm("Rotate access credentials and redeploy? Clients must re-import the link."))return;
         api("POST","/api/instances/"+id+"/domains").then(function(){return api("POST","/api/instances/"+id+"/redeploy")}).then(function(){toast("Rotated — redeploying","ok");refresh()}).catch(function(e){toast(e.message,"err")})};
       $("#s-del").onclick=function(){if(confirm('Delete "'+inst.name+'"? This is permanent.')){api("DELETE","/api/instances/"+id).then(nav_("dash")).catch(function(e){toast(e.message,"err")})}};
     }
@@ -483,7 +483,7 @@ function viewInst(id){
 function viewAdmin(){
   shell("admin");
   var v=$("#view");
-  v.innerHTML='<div class="ph"><div><h1>Admin</h1><div class="sub">Platform-wide state. Actions are audited.</div></div></div><div class="sgs" id="as"></div><div id="ab"></div>';
+  v.innerHTML='<div class="ph"><div><h1>Control Center</h1><div class="sub">Platform-wide control and system status.</div></div></div><div class="sgs" id="as"></div><div id="ab"></div>';
   var tab="instances";
   function stats(){api("GET","/api/admin/overview").then(function(s){
     $("#as").innerHTML='<div class="sg"><div class="l">Users</div><div class="v">'+s.users+'</div></div><div class="sg"><div class="l">Instances</div><div class="v">'+s.instances+'</div></div><div class="sg"><div class="l">Running</div><div class="v" style="color:var(--grn)">'+s.instances_running+'</div></div><div class="sg"><div class="l">Workers online</div><div class="v">'+s.workers_online+"</div></div>"})
@@ -531,7 +531,7 @@ function viewAdmin(){
         '<tr><td style="color:var(--fnt)">Railway provider</td><td>'+(rs[0].provider.railway?"configured":"not configured")+"</td></tr></table></div>";
         $("#cpb").onclick=function(){
           api("POST","/auth/change-password",{current_password:$("#cp").value,new_password:$("#np").value})
-          .then(function(){toast("Password updated","ok");$("#cp").value="";$("#np").value=""})
+          .then(function(){toast("Password updated successfully","ok");$("#cp").value="";$("#np").value=""})
           .catch(function(e){toast(e.message,"err")});
         };
       });
