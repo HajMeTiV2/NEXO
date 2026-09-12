@@ -248,39 +248,104 @@ function viewLogin(){
 function viewDash(){
   shell("dash");
   var v=$("#view");
-  v.innerHTML='<div class="ph"><div><h1>NEXO Overview</h1><div class="sub">Your NEXO infrastructure at a glance.</div></div>'+
-    '<div class="ha"><button class="btn pri" data-go="new"> + Launch Instance</button></div></div>'+
-    '<div class="sgs" id="sgs"></div><h3 style="margin:0 0 10px;font-size:13.5px">NEXO Instances</h3><div id="il"></div>'+
-    '<div class="card" style="margin-top:22px"><h3>Live activity</h3><div id="ac" class="mut">—</div></div>';
-  Array.prototype.forEach.call(v.querySelectorAll("[data-go]"),function(b){b.onclick=function(){nav_(b.dataset.go)}});
-  var t=null;
+  v.innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:24px;flex-wrap:wrap">
+      <div>
+        <div style="font-size:11px;color:var(--acc);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">NEXO CONTROL CENTER</div>
+        <h1 style="margin:0;font-size:28px;letter-spacing:-.5px">Cyber Premium</h1>
+        <div class="sub" style="margin-top:6px">Manage your NEXO proxy infrastructure from one place.</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn" id="refreshDash">Refresh</button>
+        <button class="btn pri" id="createDash">+ New Instance</button>
+      </div>
+    </div>
+
+    <div id="premiumStats" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px"></div>
+
+    <div style="display:grid;grid-template-columns:minmax(0,1.55fr) minmax(280px,.85fr);gap:14px;margin-bottom:14px">
+      <div class="card" style="padding:20px;background:radial-gradient(circle at 85% 15%,rgba(34,211,238,.10),transparent 30%),var(--sur);overflow:hidden">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+          <div><div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--fnt)">Infrastructure</div><h3 style="margin-top:5px">Fleet health</h3></div>
+          <span class="chip" id="fleetStatus">Checking...</span>
+        </div>
+        <div id="healthPanel" style="margin-top:20px"></div>
+      </div>
+
+      <div class="card" style="padding:20px">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--fnt)">Quick actions</div>
+        <h3 style="margin-top:5px">Operations</h3>
+        <div style="display:grid;gap:9px;margin-top:16px">
+          <button class="btn" id="qaNew" style="justify-content:flex-start"><span style="color:var(--acc)">＋</span> New instance</button>
+          <button class="btn" id="qaInstances" style="justify-content:flex-start"><span style="color:var(--blu)">◈</span> View instances</button>
+          <button class="btn" id="qaAdmin" style="justify-content:flex-start"><span style="color:var(--vio)">⚙</span> Control center</button>
+        </div>
+        <div style="margin-top:18px;padding:11px 12px;border:1px solid var(--bd);border-radius:var(--rs);background:var(--bg2)">
+          <div style="font-size:10px;color:var(--fnt);text-transform:uppercase;letter-spacing:1px">NEXO STATUS</div>
+          <div style="margin-top:5px;font-size:12px;color:var(--dim)">Infrastructure monitoring is active.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="padding:20px;margin-bottom:14px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:15px">
+        <div><div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--fnt)">Proxy fleet</div><h3 style="margin-top:4px">Your instances</h3></div>
+        <span class="chip" id="instanceCount">0 INSTANCES</span>
+      </div>
+      <div id="premiumInstances"></div>
+    </div>
+
+    <div class="card" style="padding:20px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div><div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--fnt)">Activity stream</div><h3 style="margin-top:4px">Recent activity</h3></div>
+        <span class="chip">LIVE</span>
+      </div>
+      <div id="premiumActivity"></div>
+    </div>`;
+
+  function stat(title,value,sub,accent){
+    return `<div class="card" style="padding:17px;position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(255,255,255,.025),transparent),var(--sur)"><div style="position:absolute;top:0;left:0;right:0;height:2px;background:${accent}"></div><div style="color:var(--fnt);font-size:10px;text-transform:uppercase;letter-spacing:1.2px">${title}</div><div style="margin-top:7px;font:650 25px var(--mono);color:var(--tx)">${value}</div><div style="margin-top:5px;color:var(--dim);font-size:11px">${sub}</div></div>`;
+  }
+
+  function instanceCard(i){
+    var status=i.status||"unknown";
+    var endpoint=i.endpoint_url||"No endpoint yet";
+    var sc=(status==="running"||status==="online")?"var(--grn)":status==="failed"?"var(--red)":"var(--fnt)";
+    return `<div data-id="${esc(i.id)}" style="padding:15px;border:1px solid var(--bd);border-radius:var(--r);background:var(--bg2);cursor:pointer;transition:.15s;margin-bottom:9px" onmouseover="this.style.borderColor='var(--bd2)'" onmouseout="this.style.borderColor='var(--bd)'"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><div style="min-width:0"><div style="font-weight:650;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(i.name)}</div><div style="margin-top:5px;color:var(--dim);font:11px var(--mono);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(endpoint)}</div></div><div style="display:flex;align-items:center;gap:6px;flex:none;color:${sc};font-size:11px;font-weight:650"><span style="width:7px;height:7px;border-radius:50%;background:${sc}"></span>${esc(status)}</div></div><div style="display:flex;gap:16px;margin-top:12px;color:var(--fnt);font-size:10.5px"><span>${esc(i.region||"local")}</span><span>${i.deployments_count||0} deployments</span><span>created ${ago(i.created_at)}</span></div></div>`;
+  }
+
   function load(){
     return Promise.all([api("GET","/api/instances"),api("GET","/api/activity")]).then(function(rs){
-      var list=rs[0].instances, act=rs[1].activity;
-      var run=0,sto=0,fail=0;list.forEach(function(i){if(i.status==="running")run++;else if(i.status==="failed")fail++;else sto++});
-      $("#sgs").innerHTML=sg("Active NEXO instances",list.length)+sg("Running",run,"var(--grn)")+sg("Stopped",sto)+sg("Failed",fail,fail?"var(--red)":null);
-      var il=$("#il");
-      if(!list.length){il.innerHTML='<div class="empty"><b>No instances deployed yet</b>Launch your first NEXO instance in under a minute.<div style="margin-top:14px"><button class="btn pri" data-go="new">Launch your first instance</button></div></div>'}
-      else{il.innerHTML='<div class="ig">'+list.map(card).join("")+"</div>";
-        Array.prototype.forEach.call(il.querySelectorAll("[data-id]"),function(c){c.onclick=function(){viewInst(c.dataset.id)}})}
-      $("#ac").innerHTML=act.length?act.slice(0,8).map(function(a){return '<div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd)"><span class="ftx mono" style="width:64px;flex:none">'+ago(a.ts)+'</span><span class="mut">'+esc(a.message)+"</span></div>"}).join(""):"Nothing yet — your NEXO activity will appear here.";
-      var go=v.querySelector(".empty [data-go]");if(go)go.onclick=function(){nav_("new")};
+      var list=rs[0].instances||[];
+      var act=rs[1].activity||[];
+      var run=0,sto=0,fail=0,busy=0;
+      list.forEach(function(i){
+        if(i.status==="running"||i.status==="online") run++;
+        else if(i.status==="failed") fail++;
+        else {sto++;if(BUSY[i.status])busy++;}
+      });
+      var health=list.length?Math.round(run/list.length*100):0;
+      $("#premiumStats").innerHTML=stat("Total instances",list.length,"Proxy instances","linear-gradient(90deg,var(--acc),var(--blu))")+stat("Running",run,"Currently online","var(--grn)")+stat("Stopped",sto,"Offline / stopped","var(--fnt)")+stat("Fleet health",health+"%","Availability",health>=80?"var(--grn)":health>=50?"var(--amb)":"var(--red)");
+      $("#instanceCount").textContent=list.length+" INSTANCES";
+      $("#fleetStatus").textContent=busy?busy+" DEPLOYING":fail?fail+" NEED ATTENTION":"ALL SYSTEMS OK";
+      $("#fleetStatus").style.color=fail?"var(--red)":busy?"var(--amb)":"var(--grn)";
+      $("#healthPanel").innerHTML=`<div style="display:flex;justify-content:space-between;align-items:flex-end"><div><div style="font:650 34px var(--mono)">${health}%</div><div style="font-size:11px;color:var(--dim);margin-top:3px">operational capacity</div></div><div style="text-align:right;font-size:11px;color:var(--dim)">${run} running<br>${fail} failed</div></div><div style="height:8px;margin-top:18px;border-radius:99px;background:var(--bg2);border:1px solid var(--bd);overflow:hidden"><div style="width:${Math.max(health,2)}%;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--acc),var(--blu),var(--vio));box-shadow:0 0 14px rgba(34,211,238,.25)"></div></div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px"><div style="padding:10px;border:1px solid var(--bd);border-radius:var(--rs)"><div style="font-size:10px;color:var(--fnt)">RUNNING</div><div style="font:600 17px var(--mono);margin-top:3px">${run}</div></div><div style="padding:10px;border:1px solid var(--bd);border-radius:var(--rs)"><div style="font-size:10px;color:var(--fnt)">STOPPED</div><div style="font:600 17px var(--mono);margin-top:3px">${sto}</div></div><div style="padding:10px;border:1px solid var(--bd);border-radius:var(--rs)"><div style="font-size:10px;color:var(--fnt)">FAILED</div><div style="font:600 17px var(--mono);margin-top:3px;color:${fail?"var(--red)":"var(--tx)"}">${fail}</div></div></div>`;
+      if(!list.length){$("#premiumInstances").innerHTML=`<div class="empty"><b>Your NEXO fleet is empty</b>Create your first proxy instance to get started.<div style="margin-top:14px"><button class="btn pri" id="emptyCreate">+ Create Instance</button></div></div>`;$("#emptyCreate").onclick=function(){nav_("new")};}
+      else{$("#premiumInstances").innerHTML=list.map(instanceCard).join("");Array.prototype.forEach.call($("#premiumInstances").querySelectorAll("[data-id]"),function(c){c.onclick=function(){viewInst(c.dataset.id)}})}
+      if(!act.length)$("#premiumActivity").innerHTML='<div class="empty" style="padding:25px">No activity yet.</div>';
+      else $("#premiumActivity").innerHTML=act.slice(0,8).map(function(a){return `<div style="display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--bd)"><span style="width:58px;flex:none;color:var(--fnt);font:10px var(--mono)">${ago(a.ts)}</span><span style="width:7px;height:7px;flex:none;border-radius:50%;background:var(--acc);box-shadow:0 0 8px rgba(34,211,238,.35)"></span><span style="color:var(--dim);font-size:12px">${esc(a.message)}</span></div>`}).join("");
       return list;
     });
   }
-  function sg(l,v,c){return '<div class="sg"><div class="l">'+l+'</div><div class="v" style="'+(c?"color:"+c:"")+'">'+v+"</div></div>"}
-  function card(i){
-    var ep=i.endpoint_url||(i.domain&&i.domain.indexOf("-")>0&&i.domain.length>30?null:null);
-    return '<div class="ic" data-id="'+i.id+'"><div class="t"><span class="nm">'+esc(i.name)+"</span>"+stEl(i.status).outerHTML+"</div>"+
-      (i.endpoint_url?'<div class="ep">'+esc(i.endpoint_url)+"</div>":'<div class="ep ftx">no endpoint yet</div>')+
-      '<div class="mt"><span>'+esc(i.region)+"</span><span>"+i.deployments_count+' deploys</span><span>created '+ago(i.created_at)+"</span></div></div>";
-  }
-  load().then(function(list){
-    pollTimer=every(6000,function(){
-      if(list.some(function(i){return BUSY[i.status]}))load();
-    });
-  });
+
+  $("#createDash").onclick=function(){nav_("new")};
+  $("#qaNew").onclick=function(){nav_("new")};
+  $("#qaInstances").onclick=function(){nav_("dash")};
+  $("#qaAdmin").onclick=function(){nav_("admin")};
+  $("#refreshDash").onclick=function(){var b=$("#refreshDash");b.disabled=true;b.textContent="Refreshing...";load().finally(function(){b.disabled=false;b.textContent="Refresh"})};
+  load().catch(function(e){toast(e.message,"err",5000)});
 }
+
 // ───────────────────────────── wizard ─────────────────────────────
 var PROTOS=[["vless-ws","VLESS over WebSocket","Widest client support (v2rayNG, NekoBox). Recommended."],
 ["trojan-ws","Trojan over WebSocket","TLS-like handshake, good under strict DPI."],
